@@ -9,8 +9,37 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: #FEF9F2;
   color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Navbar */
+nav {
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: #789DBC;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+nav h1 {
+  font-size: 1.5rem;
+}
+
+/* Footer */
+footer {
+  width: 100%;
+  padding: 1rem 2rem;
+  text-align: center;
+  background-color: #C9E9D2;
+  margin-top: auto;
+}
+
+/* Container */
 .container {
   max-width: 650px;
   margin: 2rem auto;
@@ -20,12 +49,7 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #789DBC;
-}
-
+/* Form */
 form {
   display: flex;
   flex-direction: column;
@@ -33,7 +57,7 @@ form {
   margin-bottom: 1.5rem;
 }
 
-input[type="text"], input[type="textarea"] {
+input[type="text"], textarea {
   padding: 0.8rem;
   border-radius: 10px;
   border: 1px solid #ccc;
@@ -79,6 +103,7 @@ button.delete-btn:hover {
   background-color: #ffbdbd;
 }
 
+/* Todo list */
 ul {
   list-style: none;
 }

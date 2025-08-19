@@ -54,7 +54,6 @@ export default function HomePage() {
 
   return (
     <div className="container">
-      <h1>Todo List Modern</h1>
       <form onSubmit={e => { e.preventDefault(); handleAdd() }}>
         <input
           type="text"
