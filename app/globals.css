@@ -84,3 +84,20 @@ li:last-child {
 .delete-btn:hover {
   background-color: #dc2626;
 }
+
+/* Checklist style */
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 18px;
+  height: 18px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+.todo-meta {
+  font-size: 0.8rem;
+  color: #555;
+  margin-left: 2.2rem;
+}

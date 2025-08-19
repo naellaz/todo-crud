@@ -5,6 +5,8 @@ import { useState } from 'react'
 interface Todo {
   id: number
   text: string
+  done: boolean
+  timestamp: string
 }
 
 export default function HomePage() {
@@ -18,7 +20,15 @@ export default function HomePage() {
       setTodos(todos.map(todo => todo.id === editId ? { ...todo, text: input } : todo))
       setEditId(null)
     } else {
-      setTodos([...todos, { id: Date.now(), text: input }])
+      setTodos([
+        ...todos,
+        {
+          id: Date.now(),
+          text: input,
+          done: false,
+          timestamp: new Date().toLocaleTimeString()
+        }
+      ])
     }
     setInput('')
   }
@@ -31,6 +41,10 @@ export default function HomePage() {
   const handleDelete = (id: number) => {
     setTodos(todos.filter(todo => todo.id !== id))
     if (editId === id) setEditId(null)
+  }
+
+  const toggleDone = (id: number) => {
+    setTodos(todos.map(todo => todo.id === id ? { ...todo, done: !todo.done } : todo))
   }
 
   return (
@@ -47,9 +61,15 @@ export default function HomePage() {
       </form>
 
       <ul>
-        {todos.map(todo => (
+        {todos.map((todo, index) => (
           <li key={todo.id}>
-            <span>{todo.text}</span>
+            <div>
+              <input type="checkbox" checked={todo.done} onChange={() => toggleDone(todo.id)} />
+              <span className={todo.done ? 'completed' : ''}>
+                {index + 1}. {todo.text}
+              </span>
+              <div className="todo-meta">[{todo.timestamp}]</div>
+            </div>
             <div>
               <button className="edit-btn" onClick={() => handleEdit(todo.id, todo.text)}>Edit</button>
               <button className="delete-btn" onClick={() => handleDelete(todo.id)}>Hapus</button>
