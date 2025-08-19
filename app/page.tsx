@@ -1,55 +1,62 @@
-// app/page.tsx
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
+import { useState } from 'react'
 
-export default function Home() {
-  const [todos, setTodos] = useState<string[]>([]);
-  const [newTodo, setNewTodo] = useState("");
+interface Todo {
+  id: number
+  text: string
+}
 
-  const addTodo = () => {
-    if (!newTodo.trim()) return;
-    setTodos([...todos, newTodo]);
-    setNewTodo("");
-  };
+export default function HomePage() {
+  const [todos, setTodos] = useState<Todo[]>([])
+  const [input, setInput] = useState('')
+  const [editId, setEditId] = useState<number | null>(null)
 
-  const deleteTodo = (index: number) => {
-    setTodos(todos.filter((_, i) => i !== index));
-  };
+  const handleAdd = () => {
+    if (!input.trim()) return
+    if (editId !== null) {
+      setTodos(todos.map(todo => todo.id === editId ? { ...todo, text: input } : todo))
+      setEditId(null)
+    } else {
+      setTodos([...todos, { id: Date.now(), text: input }])
+    }
+    setInput('')
+  }
+
+  const handleEdit = (id: number, text: string) => {
+    setInput(text)
+    setEditId(id)
+  }
+
+  const handleDelete = (id: number) => {
+    setTodos(todos.filter(todo => todo.id !== id))
+    if (editId === id) setEditId(null)
+  }
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12">
-      <h1 className="text-3xl font-bold mb-6">Todo App</h1>
-      <div className="flex gap-2 mb-4">
+    <div className="container">
+      <h1>Todo List</h1>
+      <form onSubmit={e => { e.preventDefault(); handleAdd() }}>
         <input
-          className="border p-2 rounded"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          placeholder="Add new todo..."
+          type="text"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          placeholder="Tambah kegiatan..."
         />
-        <button
-          onClick={addTodo}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Add
-        </button>
-      </div>
-      <ul className="w-full max-w-md">
-        {todos.map((todo, i) => (
-          <li
-            key={i}
-            className="flex justify-between items-center border-b py-2"
-          >
-            {todo}
-            <button
-              onClick={() => deleteTodo(i)}
-              className="text-red-500"
-            >
-              Delete
-            </button>
+        <button type="submit">{editId !== null ? 'Update' : 'Tambah'}</button>
+      </form>
+
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>
+            <span>{todo.text}</span>
+            <div>
+              <button className="edit-btn" onClick={() => handleEdit(todo.id, todo.text)}>Edit</button>
+              <button className="delete-btn" onClick={() => handleDelete(todo.id)}>Hapus</button>
+            </div>
           </li>
         ))}
       </ul>
-    </main>
-  );
+    </div>
+  )
 }
